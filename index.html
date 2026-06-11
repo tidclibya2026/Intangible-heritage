@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السجل الوطني للتراث اللامادي - ليبيا</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* جميع الأنماط السابقة مع الحفاظ على الأزرق الملكي والذهبي */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Cairo', Tahoma, sans-serif; background: #f4f7fc; color: #1e2a3a; }
+        .header { background: linear-gradient(135deg, #0a1a3a, #1e3a8a); color: white; padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { font-size: 2rem; color: #f5b041; }
+        .title-main h1 { font-size: 1.2rem; }
+        .title-main h2 { font-size: 1.4rem; color: #f5b041; }
+        .libya-flag { background: #f5b041; padding: 6px 15px; border-radius: 40px; color: #0a1a3a; font-weight: bold; display: flex; gap: 10px; }
+        .header-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .search-box { background: rgba(255,255,255,0.15); border-radius: 40px; padding: 6px 16px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(245,176,65,0.3); }
+        .search-box input { background: transparent; border: none; padding: 8px; color: white; outline: none; width: 220px; }
+        .search-box input::placeholder { color: #ddd; }
+        .user-area { display: flex; gap: 18px; align-items: center; }
+        .user-area i { color: #f5b041; }
+        .main-layout { display: flex; min-height: calc(100vh - 150px); }
+        .sidebar { width: 280px; background: white; border-left: 1px solid #e0e7ff; padding: 2rem 1rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
+        .sidebar h3 { color: #1e3a8a; border-right: 4px solid #f5b041; padding-right: 12px; margin-bottom: 1.5rem; }
+        .domain-list { list-style: none; }
+        .domain-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 8px; border-radius: 50px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #1e2a3a; }
+        .domain-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #f5b041; }
+        .domain-item i { width: 28px; color: #f5b041; }
+        .domain-item.active { background: #1e3a8a; color: white; }
+        .domain-item.active i { color: white; }
+        .domain-item:hover:not(.active) { background: #eef2ff; }
+        .content-area { flex: 1; padding: 2rem; overflow-y: auto; }
+        .category-card { background: white; border-radius: 20px; padding: 0.8rem 1.2rem; margin-bottom: 0.8rem; border: 1px solid #e0e7ff; }
+        .category-header { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .category-img { width: 36px; height: 36px; border-radius: 12px; object-fit: cover; border: 1px solid #f5b041; }
+        .category-title { flex: 1; font-weight: bold; color: #1e3a8a; }
+        .toggle-icon { color: #f5b041; }
+        .subcategories { padding-right: 3rem; margin-top: 0.5rem; display: none; }
+        .subcategories.show { display: block; }
+        .final-item { background: #eef2ff; padding: 6px 16px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; margin: 5px 5px 0 0; cursor: pointer; transition: 0.1s; color: #1e3a8a; border: 1px solid #d1dbfa; }
+        .final-item:hover { background: #f5b041; color: white; border-color: #f5b041; }
+        .final-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+        .details-panel { background: white; border-radius: 28px; padding: 1.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border-top: 5px solid #f5b041; }
+        .back-btn { background: #1e3a8a; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; margin-bottom: 1.5rem; }
+        .back-btn:hover { background: #f5b041; color: #0a1a3a; }
+        .heritage-title { font-size: 2rem; font-weight: 800; color: #1e3a8a; }
+        .code-badge { background: #eef2ff; padding: 5px 15px; border-radius: 40px; display: inline-block; margin: 10px 0; color: #1e3a8a; font-weight: bold; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .info-item { background: #eef2ff; padding: 0.8rem; border-radius: 16px; }
+        .section-block { margin: 1.5rem 0; }
+        .section-title { font-size: 1.3rem; font-weight: bold; color: #1e3a8a; border-right: 4px solid #f5b041; padding-right: 12px; margin-bottom: 1rem; }
+        .gallery { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+        .gallery img { width: 200px; height: 150px; object-fit: cover; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #f5b041; cursor: pointer; }
+        .footer { background: #0a1a3a; color: #ccc; text-align: center; padding: 1rem; font-size: 0.8rem; border-top: 2px solid #f5b041; }
+        @media (max-width: 700px) { .main-layout { flex-direction: column; } .sidebar { width: 100%; border-left: none; border-bottom: 1px solid #e0e7ff; } .gallery img { width: 100%; height: auto; } }
+    </style>
+</head>
+<body>
+<div>
+    <div class="header">
+        <div class="header-top">
+            <div class="logo-area">
+                <i class="fas fa-landmark logo-icon"></i>
+                <div class="title-main">
+                    <h1>وزارة السياحة والصناعات التقليدية</h1>
+                    <h2>السجل الوطني للتراث اللامادي</h2>
+                    <p>تسجيل وصون التراث الثقافي غير المادي في ليبيا</p>
+                </div>
+            </div>
+            <div class="libya-flag">
+                <i class="fas fa-star-and-crescent"></i> دولة ليبيا
+                <span>حكومة الوحدة الوطنية</span>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="بحث في السجل...">
+            </div>
+            <div class="user-area">
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+                <span>مرحباً، مدير السجل</span>
+            </div>
+        </div>
+    </div>
+    <div class="main-layout">
+        <div class="sidebar">
+            <h3><i class="fas fa-stream"></i> المجالات الرئيسية</h3>
+            <ul class="domain-list" id="domainList"></ul>
+        </div>
+        <div class="content-area" id="contentArea"></div>
+    </div>
+    <div class="footer">
+        تصميم وتنفيذ مركز المعلومات والتوثيق السياحي &copy; 2026 - السجل الوطني للتراث اللامادي - ليبيا
+    </div>
+</div>
+
+<script>
+    // ----------------------------- الصور -----------------------------
+    const domainImages = {
+        "A": "https://cdn-icons-png.flaticon.com/512/1995/1995573.png",
+        "B": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
+        "C": "https://cdn-icons-png.flaticon.com/512/2946/2946990.png",
+        "D": "https://cdn-icons-png.flaticon.com/512/1903/1903254.png",
+        "H": "https://cdn-icons-png.flaticon.com/512/1010/1010715.png"
+    };
+    const categoryImages = {
+        "B-2-3": "https://cdn-icons-png.flaticon.com/512/1995/1995573.png"
+    };
+    const finalItemImages = {
+        "B-2-3-1": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
+    };
+
+    // ----------------------------- هيكل التصنيفات (تم إضافة الخيل العربي برمز B-2-3-1) -----------------------------
+    const categories = {
+        "A": { name: "التقاليد وأشكال التعبير الشفهي", children: {
+            "A-1": { name: "العادات وأشكال التعبير الشفهي", children: {
+                "A-1-1": { name: "العادات", children: ["A-1-1-1", "A-1-1-2", "A-1-1-3"] },
+                "A-1-2": { name: "الأدب الشعبي", children: ["A-1-2-1", "A-1-2-2", "A-1-2-3", "A-1-2-4", "A-1-2-5"] }
+            } }
+        } },
+        "B": { name: "فنون وتقاليد أداء العروض", children: {
+            "B-1": { name: "الأهازيج الشعبية", children: ["B-1-1"] },
+            "B-2": { name: "الفنون التعبيرية - العروض", children: {
+                "B-2-1": "الرقص الشعبي",
+                "B-2-2": { name: "الألعاب الشعبية", children: ["B-2-2-1"] },
+                "B-2-3": { name: "الخيل العربي", children: ["B-2-3-1"] }   // إضافة العنصر الجديد
+            } }
+        } },
+        "C": { name: "الممارسات الاجتماعية والطقوس والاحتفالات", children: {
+            "C-1": { name: "العادات والتقاليد الشعبية", children: {
+                "C-1-1": "عادات دورة الحياة",
+                "C-1-2": "الأعياد الدينية",
+                "C-1-3": "الأعياد القومية",
+                "C-1-4": "الأعراف الشعبية",
+                "C-1-5": { name: "الطعام", children: ["C-1-5-1", "C-1-5-2", "C-1-5-3", "C-1-5-4", "C-1-5-5", "C-1-5-6"] },
+                "C-1-6": "الاحتفالات الشعبية"
+            } },
+            "C-2": { name: "المعتقدات الشعبية", children: ["C-2-1", "C-2-2", "C-2-3", "C-2-4"] }
+        } },
+        "D": { name: "المعارف والممارسات المتعلقة بالطبيعة والكون", children: {
+            "D-1": "المعتقدات الشعبية (طبيعة)",
+            "D-2": "الطب الشعبي",
+            "D-3": "المعارف المتعلقة بالطبيعة والكون",
+            "D-4": "اقتفاء الأثر",
+            "D-5": { name: "معارف مرتبطة بالتجميل", children: ["D-5-1", "D-5-2"] },
+            "D-6": "معارف مرتبطة بالطيور والحيوانات"
+        } },
+        "H": { name: "المهارات المرتبطة بالفنون الحرفية التقليدية", children: {
+            "H-1": { name: "المهارات المرتبطة بالصناعات اليدوية", children: {
+                "H-1-1": { name: "صناعة النسيج", children: { "H-1-1-1": { name: "الأزياء الشعبية", children: ["H-1-1-1-1", "H-1-1-1-2", "H-1-1-1-3", "H-1-1-1-4"] } } },
+                "H-1-2": "صناعة السجاد",
+                "H-1-3": "بيوت الشعر",
+                "H-1-4": { name: "صناعة الدمى النسيجية", children: ["H-1-4-1"] }
+            } },
+            "H-2": { name: "الصناعات الحرفية التقليدية", children: {
+                "H-2-1": { name: "صناعة المعادن", children: ["H-2-1-1"] },
+                "H-2-2": "الصناعات الجلدية",
+                "H-2-3": { name: "الصناعات الخشبية", children: ["H-2-3-1"] },
+                "H-2-4": "الفخار"
+            } },
+            "H-3": "الخط العربي"
+        } }
+    };
+
+    // ----------------------------- بيانات الجواد العربي الليبي (بطاقة معلومات كاملة) -----------------------------
+    const heritageData = {
+        "C-1-5-1": { name: "الكُسْكُسِي", desc: "طبق تقليدي ليبي...", region: "طرابلس، جبل نفوسة", status: "مسجل", date: "2026-06-01", source: "توثيق ميداني", images: ["https://picsum.photos/id/131/300/200"] },
+        "C-1-5-2": { name: "البازين", desc: "وجبة تقليدية...", region: "بنغازي", status: "مسجل", date: "2026-04-28", source: "تراث شعبي", images: ["https://picsum.photos/id/108/300/200"] },
+        "A-1-1-1": { name: "عادات الزواج الليبية", desc: "طقوس الزواج التقليدية...", region: "جميع ليبيا", status: "مسجل", date: "2026-05-28", source: "مركز الدراسات", images: ["https://picsum.photos/id/29/300/200"] },
+        "B-2-2-1": { name: "لعبة الخربقة", desc: "لعبة شعبية...", region: "بنغازي", status: "مسجل", date: "2026-05-20", source: "توثيق 2023", images: ["https://picsum.photos/id/26/300/200"] },
+        "H-1-1-1-1": { name: "العباءة الرجالية", desc: "عباءة تقليدية...", region: "المناطق الغربية", status: "مسجل", date: "2026-05-15", source: "حرفيون", images: ["https://picsum.photos/id/84/300/200"] },
+        "D-5-1": { name: "الكحل العربي", desc: "مادة تجميلية...", region: "الصحراء الليبية", status: "قيد الدراسة", date: "2026-05-10", source: "تراث شفهي", images: ["https://picsum.photos/id/96/300/200"] },
+        "A-1-2-4": { name: "الأغاني الشعبية والمواويل", desc: "غناء تراثي...", region: "الجبل الأخضر", status: "مسجل", date: "2026-05-10", source: "توثيق", images: ["https://picsum.photos/id/133/300/200"] },
+        // العنصر الجديد: الجواد العربي الليبي
+        "B-2-3-1": {
+            name: "الجواد العربي الليبي",
+            desc: "الخيل العربي في ليبيا هو موروث ثقافي أصيل يمتد لآلاف السنين، جمع بين الأصالة العربية والخصائص المحلية، ويُعتبر رمزاً للفخر والكرم والفروسية.",
+            region: "ينتشر في جميع أنحاء ليبيا، بأهم الاسطبلات والنوادي: اسطبلات أبو بطينة (بنغازي)، اسطبلات الخير، المسومة، أوراس، ذات الرمال، العماد، تيكة، وعائلات العجيلي، فرحات العكاري، البراني، العلوص.",
+            status: "في حالة نمو وتوسع",
+            date: "2026-06-11",
+            source: "بطاقة حصر رقم 1/LYSB – الباحثة د. كريمة أحمد محمد عوض، ونوري فريوان",
+            images: [
+                "https://picsum.photos/id/132/300/200",
+                "https://picsum.photos/id/128/300/200",
+                "https://picsum.photos/id/123/300/200",
+                "https://picsum.photos/id/84/300/200"
+            ],
+            // حقول إضافية من الملف
+            otherNames: "الحصان، الفرس، الجواد الكريم، السابق، المضمار، القارح، الكوت النقمال، الجنجان، المكروم.",
+            historicalRoots: "تعود تربية الخيول في ليبيا إلى آلاف السنين، وقد أشاد بها المؤرخون اليونانيون والرومان، خاصة خيول قورينا (شحات). ذكر كاليماخوس القوريني اهتمام الملكة برنيكي الثانية بتربية الخيول وإرسالها إلى أوليمبيا. كما أرسل القورينيون للإسكندر الأكبر 300 حصان كهدية. استمر التميز عبر العصور، ووصف سينيسيوس ليبيا بأنها 'مكان الخيول الجميلة'. مع الفتح الإسلامي دخلت الجياد العربية واختلطت السلالات، وما زالت بعض المرابط موجودة حتى اليوم.",
+            archaeologicalEvidences: "رسوم صخرية في كاف طاهر (1200-2000 ق.م)، فسيفساء الكنيسة الشرقية في قصر ليبيا، نقوش بارزة لفرسان وخيول في قورينا، أمفورات جوائز عليها مشاهد سباق خيول، وقوائم خيول سباق من روما تُظهر أن 28 من أصل 74 حصاناً كانت من برقة.",
+            arabicHeritage: "أفرد العلامة الليبي ابن الإجدابي في كتابه 'كفاية المتحفظ في اللغة' أبواباً كاملة عن الخيل: أسماؤها (الحصان، الجواد، الطرف...)، ألوانها (الكميت، الأدهم، الأحوى...)، جماعاتها (الكتيبة، الرعلة، المقنب...)، ومراتبها في السباق (المجلى، المصلى، المسلى...). كما ذكر صفاتها القياسية (قصير الظهر والمنقار، عريض الصدر والكفل، طويل العنق).",
+            materialElements: "أدوات العدة: المخلاة، الطراحة (الرسوة)، الهجار، العدة (السرج) وتشمل: الكتب، القلادة، الدير، الشمسية، الأجناب (الشواطر)، البدود (خمسة أكسية بألوان مختلفة)، الشريحة، الجلال، اللجام. الأزياء: الكسوة العربية (الزبون/الكاط)، القميص الأبيض، الجرد (الحولي) المعروف بالنقاب، القبعة (طاقية/شنة) – سوداء في الغرب وحمراء في الشرق، وحذاء جلدي أسود.",
+            intangibleElements: "تعابير شفوية: أمثال شعبية مثل 'الجيدة توقي على وجهها من العجاج'، 'العز حصان'، وشعر المهاجاة وترنيمة 'بنات الريح'. المعتقدات: 'براريم الخيل' (دوائر الشعر في جسد الحصان) ولها تفسيرات: بريمة العذار (خلف العذار خير وأمامه شر)، بريمة الشريحة (تستر الفضايح)، بريمة البيوت (عدد الزيجات)، بريمة المصرف (الرزق)، بريمة الركس (كثرة الماشية)، بريمة المزاريق (الموت في المعركة)، بريمة الخزوق (تشاؤم)، بريمة الثمن (غلاء السعر)، بريمة السماميس (السرعة)، براريم القزع (الخير والشر)، بريمة النداديب (مرتبطة بالوفيات)، بريمة القبر (مكروهة)، بريمة المحبة (الألفة). فنون الأداء: ركوب الخيل من اليسار والنزول منها، والعروض الفردية والجماعية (العقد).",
+            contexts: "الميز الشعبي (الملهاد): يصطف الفرسان بخيولهم في ساحة العرض، بانتظار إذن الرئيس الشرفي (الريس أو الدخلاني)، ثم ينشدون القصائد وينطلقون. كما تقام سباقات السرعة وسباقات الجمال والمشاركة في المسابقات المحلية والدولية.",
+            transmission: "تنتقل المعارف والمهارات عن طريق التوارث الأبوي والممارسة العملية في الاسطبلات والنوادي، بالإضافة إلى الدورات التدريبية المنظمة.",
+            currentState: "في حالة تطور ونمو وانتشار، ويُحافظ عليه بشكل جيد، مع جهود كبيرة من الجمعيات والمراكز.",
+            safeguardingEfforts: "تأسيس الجمعية الليبية للخيل العربي، المركز الوطني للخيل العربي، الحصول على عضوية منظمة الواهو والايكاهو والافهار، استخراج السجل الليبي للخيل العربي، إنشاء مدارس تدريب على ركوب الخيل، تنظيم المسابقات والمهرجانات، خطط لدورات تدريبية للمدربين والفرسان الناشئين.",
+            stakeholders: "الجمعية الليبية للخيل العربي (نوري فريوان)، إدارة سجل الأنساب (أحمد محمد هروس)، المركز الوطني للجواد العربي (د. صلاح الدين المشري، الدكتورة بشرى الطالب)، نادي جالو للفروسية (طارق المجبري).",
+            references: "ابن الإجدابي، 'كفاية المتحفظ في اللغة'؛ عبد الحميد، محمد هـ. هارون (2018)؛ منى اهوين، 'الخيول في قورينائية'؛ محجوب، ع. (1978) فسيفساء فيلا رومانا دي سيلين؛ بالإضافة إلى العشرات من المراجع الأجنبية المذكورة في بطاقة الحصر."
+        }
+    };
+
+    let currentDomain = "B";  // نبدأ من المجال B لرؤية الخيل العربي بسرعة
+    let currentView = "categories";
+
+    const domainListEl = document.getElementById("domainList");
+    const contentArea = document.getElementById("contentArea");
+
+    function buildSidebar() {
+        const domains = [
+            { code: "A", name: "التقاليد الشفهية (A)", icon: "fas fa-microphone-alt" },
+            { code: "B", name: "فنون العروض (B)", icon: "fas fa-music" },
+            { code: "C", name: "الممارسات والطقوس (C)", icon: "fas fa-hands-helping" },
+            { code: "D", name: "المعارف والطبيعة (D)", icon: "fas fa-tree" },
+            { code: "H", name: "الحرف التقليدية (H)", icon: "fas fa-hands" }
+        ];
+        domainListEl.innerHTML = "";
+        domains.forEach(d => {
+            const li = document.createElement("li");
+            li.className = `domain-item ${currentDomain === d.code ? "active" : ""}`;
+            const imgSrc = domainImages[d.code] || "";
+            const imgHtml = imgSrc ? `<img src="${imgSrc}" class="domain-img" alt="${d.code}">` : `<i class="${d.icon}"></i>`;
+            li.innerHTML = `${imgHtml}<span>${d.name}</span>`;
+            li.addEventListener("click", () => {
+                currentDomain = d.code;
+                currentView = "categories";
+                buildSidebar();
+                renderCategories(currentDomain);
+            });
+            domainListEl.appendChild(li);
+        });
+    }
+
+    function buildTreeHTML(node) {
+        if (Array.isArray(node)) {
+            return node.map(code => {
+                const name = heritageData[code] ? heritageData[code].name : code;
+                const imgSrc = finalItemImages[code] || "";
+                const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="">` : `<i class="fas fa-tag"></i>`;
+                return `<div class="final-item" data-code="${code}">${imgHtml} ${name} (${code})</div>`;
+            }).join('');
+        } else if (typeof node === "object" && node !== null) {
+            let html = "";
+            for (let key in node) {
+                const value = node[key];
+                if (typeof value === "string") {
+                    const code = key;
+                    const name = heritageData[code] ? heritageData[code].name : value;
+                    const imgSrc = finalItemImages[code] || "";
+                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="">` : `<i class="fas fa-tag"></i>`;
+                    html += `<div class="final-item" data-code="${code}">${imgHtml} ${name} (${code})</div>`;
+                } else if (typeof value === "object") {
+                    const displayName = value.name || key;
+                    const imgSrc = categoryImages[key] || "";
+                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="category-img" alt="">` : `<i class="fas fa-folder category-img" style="font-size:1.8rem; color:#f5b041;"></i>`;
+                    const childrenHtml = buildTreeHTML(value.children || value);
+                    html += `
+                        <div class="category-card">
+                            <div class="category-header">
+                                ${imgHtml}
+                                <span class="category-title">📁 ${displayName} (${key})</span>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="subcategories">${childrenHtml}</div>
+                        </div>
+                    `;
+                }
+            }
+            return html;
+        }
+        return "";
+    }
+
+    function renderCategories(domainCode) {
+        const domain = categories[domainCode];
+        if (!domain) { contentArea.innerHTML = `<div class="details-panel">لا توجد بيانات</div>`; return; }
+        const treeHtml = buildTreeHTML(domain.children);
+        contentArea.innerHTML = `<div class="details-panel"><h2><i class="fas fa-folder-open"></i> ${domain.name}</h2><div style="margin-top:20px;">${treeHtml}</div></div>`;
+        attachEvents();
+    }
+
+    function attachEvents() {
+        document.querySelectorAll(".category-card .category-header").forEach(header => {
+            header.removeEventListener("click", toggleHandler);
+            header.addEventListener("click", toggleHandler);
+        });
+        document.querySelectorAll(".final-item").forEach(el => {
+            el.removeEventListener("click", finalHandler);
+            el.addEventListener("click", finalHandler);
+        });
+    }
+    function toggleHandler(e) {
+        e.stopPropagation();
+        const parent = this.closest(".category-card");
+        const sub = parent.querySelector(".subcategories");
+        const icon = this.querySelector(".toggle-icon");
+        if (sub) { sub.classList.toggle("show"); icon.classList.toggle("fa-chevron-up"); }
+    }
+    function finalHandler(e) {
+        const code = this.getAttribute("data-code");
+        if (code) showDetails(code);
+    }
+
+    // عرض بطاقة المعلومات الكاملة للجواد العربي الليبي (والعناصر الأخرى)
+    function showDetails(code) {
+        const data = heritageData[code];
+        if (!data) {
+            contentArea.innerHTML = `<div class="details-panel"><button class="back-btn" id="backBtn"><i class="fas fa-arrow-right"></i> العودة</button><p>⚠️ لا توجد تفاصيل للرمز ${code}</p></div>`;
+            document.getElementById("backBtn")?.addEventListener("click", () => { currentView = "categories"; renderCategories(currentDomain); });
+            return;
+        }
+        let galleryHtml = "";
+        if (data.images && data.images.length) {
+            data.images.forEach(src => { galleryHtml += `<img src="${src}" alt="${data.name}">`; });
+        } else { galleryHtml = "<p>لا توجد صور</p>"; }
+
+        // بناء HTML مخصص للجواد العربي (يحتوي على أقسام إضافية)
+        let extraSections = "";
+        if (code === "B-2-3-1") {
+            extraSections = `
+                <div class="section-block"><div class="section-title"><i class="fas fa-tag"></i> أسماء أخرى</div><p>${data.otherNames}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-history"></i> التأصيل التاريخي والشواهد الأثرية</div><p><strong>التأصيل التاريخي:</strong> ${data.historicalRoots}</p><p><strong>الشواهد الأثرية:</strong> ${data.archaeologicalEvidences}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-feather-alt"></i> التراث العربي (ابن الإجدابي)</div><p>${data.arabicHeritage}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-tools"></i> العناصر المادية (الأدوات والأزياء)</div><p>${data.materialElements}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-magic"></i> العناصر غير المادية (التعابير - المعتقدات - الفنون)</div><p>${data.intangibleElements}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-calendar-alt"></i> السياق (الميز والعروض)</div><p>${data.contexts}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-users"></i> النقل والتوارث</div><p>${data.transmission}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-chart-line"></i> حالة العنصر وجهود الصون</div><p><strong>الحالة الحالية:</strong> ${data.currentState}<br><strong>جهود الصون:</strong> ${data.safeguardingEfforts}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-building"></i> المنظمات والأشخاص المعنيون</div><p>${data.stakeholders}</p></div>
+                <div class="section-block"><div class="section-title"><i class="fas fa-book"></i> المراجع والمصادر</div><p>${data.references}</p></div>
+            `;
+        }
+        const html = `
+            <div class="details-panel">
+                <button class="back-btn" id="backBtn"><i class="fas fa-arrow-right"></i> العودة إلى التصنيفات</button>
+                <div class="heritage-title">${data.name}</div>
+                <div class="code-badge"><i class="fas fa-tag"></i> ${code}</div>
+                <div class="info-grid">
+                    <div class="info-item"><strong>المنطقة/الانتشار</strong><br>${data.region}</div>
+                    <div class="info-item"><strong>الحالة</strong><br><span style="background:#1e3a8a; color:white; padding:2px 12px; border-radius:20px;">${data.status}</span></div>
+                    <div class="info-item"><strong>تاريخ التسجيل</strong><br>${data.date}</div>
+                    <div class="info-item"><strong>المصدر</strong><br>${data.source}</div>
+                </div>
+                <div><strong>الوصف العام:</strong><p>${data.desc}</p></div>
+                ${extraSections}
+                <div style="margin-top:20px;"><strong>معرض الصور التوثيقية</strong><div class="gallery">${galleryHtml}</div></div>
+            </div>
+        `;
+        contentArea.innerHTML = html;
+        document.getElementById("backBtn")?.addEventListener("click", () => { currentView = "categories"; renderCategories(currentDomain); });
+        currentView = "details";
+    }
+
+    // البحث
+    function setupSearch() {
+        const searchInput = document.getElementById("searchInput");
+        searchInput.addEventListener("input", (e) => {
+            const term = e.target.value.trim().toLowerCase();
+            if (term === "") { if (currentView === "categories") renderCategories(currentDomain); return; }
+            const results = [];
+            for (let [code, data] of Object.entries(heritageData)) {
+                if (data.name.toLowerCase().includes(term) || code.toLowerCase().includes(term)) results.push({ code, name: data.name });
+            }
+            if (results.length === 0) { contentArea.innerHTML = `<div class="details-panel">🔍 لا توجد نتائج</div>`; return; }
+            let resultsHtml = `<div class="details-panel"><h3>نتائج البحث عن: ${term}</h3><div style="display:flex; flex-wrap:wrap; gap:10px;">`;
+            results.forEach(r => {
+                const imgSrc = finalItemImages[r.code] || "";
+                const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="">` : `<i class="fas fa-tag"></i>`;
+                resultsHtml += `<div class="final-item" data-code="${r.code}">${imgHtml} ${r.name} (${r.code})</div>`;
+            });
+            resultsHtml += `</div><button class="back-btn" id="clearSearch">مسح البحث</button></div>`;
+            contentArea.innerHTML = resultsHtml;
+            document.querySelectorAll(".final-item").forEach(el => { el.addEventListener("click", () => showDetails(el.getAttribute("data-code"))); });
+            document.getElementById("clearSearch")?.addEventListener("click", () => { searchInput.value = ""; renderCategories(currentDomain); currentView = "categories"; });
+        });
+    }
+
+    function init() { buildSidebar(); renderCategories("B"); setupSearch(); }
+    init();
+</script>
+</body>
+</html>
