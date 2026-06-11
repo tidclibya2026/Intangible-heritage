@@ -26,7 +26,7 @@
         .sidebar h3 { color: #1e3a8a; border-right: 4px solid #f5b041; padding-right: 12px; margin-bottom: 1.5rem; }
         .domain-list { list-style: none; }
         .domain-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 8px; border-radius: 50px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #1e2a3a; }
-        .domain-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #f5b041; }
+        .domain-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #f5b041; background: #f0f2f5; }
         .domain-item i { width: 28px; color: #f5b041; }
         .domain-item.active { background: #1e3a8a; color: white; }
         .domain-item.active i { color: white; }
@@ -34,7 +34,7 @@
         .content-area { flex: 1; padding: 2rem; overflow-y: auto; }
         .category-card { background: white; border-radius: 20px; padding: 0.8rem 1.2rem; margin-bottom: 0.8rem; border: 1px solid #e0e7ff; }
         .category-header { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .category-img { width: 36px; height: 36px; border-radius: 12px; object-fit: cover; border: 1px solid #f5b041; }
+        .category-img { width: 36px; height: 36px; border-radius: 12px; object-fit: cover; border: 1px solid #f5b041; background: #f0f2f5; }
         .category-title { flex: 1; font-weight: bold; color: #1e3a8a; }
         .toggle-icon { color: #f5b041; }
         .subcategories { padding-right: 3rem; margin-top: 0.5rem; display: none; }
@@ -99,23 +99,26 @@
 </div>
 
 <script>
-    // ----------------------------- الصور (استخدام الروابط الخام من GitHub) -----------------------------
-    // ملاحظة: يجب أن تكون الصور موجودة في المستودع بنفس الأسماء. إذا لم تكن موجودة، سيظهر أيقونة بديلة.
+    // ==========================  إعدادات الصور من مستودع GitHub  ==========================
+    // روابط الصور للمجالات (استخدم الروابط الخام "raw")
+    // تأكد من وجود هذه الصور في المستودع بنفس الأسماء، أو قم بتعديل الروابط
     const domainImages = {
-        "A": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/2.jpg",
-        "B": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/3.jpg",
-        "C": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/1.jpg",
-        "D": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/4.jpg",
-        "H": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/5.jpg"
-          };
+        "A": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/2.jpg",
+        "B": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/3.jpg",
+        "C": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/1.jpg",
+        "D": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/4.jpg",
+        "H": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/5.jpg"
+    };
+    // صور التصنيفات الفرعية (اختيارية، يمكن إضافة المزيد)
     const categoryImages = {
         "B-2-3": "https://cdn-icons-png.flaticon.com/512/1995/1995573.png"
     };
+    // صور العناصر النهائية (ستظهر بجانب اسم العنصر)
     const finalItemImages = {
         "B-2-3-1": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
     };
 
-    // ----------------------------- هيكل التصنيفات -----------------------------
+    // ==========================  هيكل التصنيفات (متوافق مع ملف التراث) ==========================
     const categories = {
         "A": { name: "التقاليد وأشكال التعبير الشفهي", children: {
             "A-1": { name: "العادات وأشكال التعبير الشفهي", children: {
@@ -167,15 +170,16 @@
         } }
     };
 
-    // ----------------------------- البيانات التفصيلية (بما فيها الجواد العربي) -----------------------------
+    // ==========================  بيانات العناصر التراثية (بطاقات معلومات كاملة) ==========================
     const heritageData = {
-        "C-1-5-1": { name: "الكُسْكُسِي", desc: "طبق تقليدي ليبي...", region: "طرابلس، جبل نفوسة", status: "مسجل", date: "2026-06-01", source: "توثيق ميداني", images: ["https://picsum.photos/id/131/300/200"] },
-        "C-1-5-2": { name: "البازين", desc: "وجبة تقليدية...", region: "بنغازي", status: "مسجل", date: "2026-04-28", source: "تراث شعبي", images: ["https://picsum.photos/id/108/300/200"] },
-        "A-1-1-1": { name: "عادات الزواج الليبية", desc: "طقوس الزواج التقليدية...", region: "جميع ليبيا", status: "مسجل", date: "2026-05-28", source: "مركز الدراسات", images: ["https://picsum.photos/id/29/300/200"] },
-        "B-2-2-1": { name: "لعبة الخربقة", desc: "لعبة شعبية...", region: "بنغازي", status: "مسجل", date: "2026-05-20", source: "توثيق 2023", images: ["https://picsum.photos/id/26/300/200"] },
-        "H-1-1-1-1": { name: "العباءة الرجالية", desc: "عباءة تقليدية...", region: "المناطق الغربية", status: "مسجل", date: "2026-05-15", source: "حرفيون", images: ["https://picsum.photos/id/84/300/200"] },
-        "D-5-1": { name: "الكحل العربي", desc: "مادة تجميلية...", region: "الصحراء الليبية", status: "قيد الدراسة", date: "2026-05-10", source: "تراث شفهي", images: ["https://picsum.photos/id/96/300/200"] },
-        "A-1-2-4": { name: "الأغاني الشعبية والمواويل", desc: "غناء تراثي...", region: "الجبل الأخضر", status: "مسجل", date: "2026-05-10", source: "توثيق", images: ["https://picsum.photos/id/133/300/200"] },
+        "C-1-5-1": { name: "الكُسْكُسِي", desc: "طبق تقليدي ليبي يصنع من السميد ويقدم مع الخضار واللحم، يرمز إلى الكرم والمناسبات الاجتماعية.", region: "طرابلس، جبل نفوسة", status: "مسجل", date: "2026-06-01", source: "توثيق ميداني 2024", images: ["https://picsum.photos/id/131/300/200", "https://picsum.photos/id/127/300/200"] },
+        "C-1-5-2": { name: "البازين", desc: "وجبة تقليدية من الدقيق والصلصة (روز)، تعد في المناسبات.", region: "بنغازي، المنطقة الشرقية", status: "مسجل", date: "2026-04-28", source: "تراث شعبي", images: ["https://picsum.photos/id/108/300/200"] },
+        "A-1-1-1": { name: "عادات الزواج الليبية", desc: "طقوس الزواج التقليدية التي تشمل الليلية والزفة والأهازيج.", region: "جميع ليبيا", status: "مسجل", date: "2026-05-28", source: "مركز الدراسات الشعبية", images: ["https://picsum.photos/id/29/300/200"] },
+        "B-2-2-1": { name: "لعبة الخربقة", desc: "لعبة شعبية تعتمد على التوازن والمهارة، تمارس في الأعياد.", region: "بنغازي، البيضاء", status: "مسجل", date: "2026-05-20", source: "توثيق 2023", images: ["https://picsum.photos/id/26/300/200"] },
+        "H-1-1-1-1": { name: "العباءة الرجالية", desc: "عباءة تقليدية مصنوعة من الصوف، تلبس في المناسبات.", region: "المناطق الغربية", status: "مسجل", date: "2026-05-15", source: "حرفيون محليون", images: ["https://picsum.photos/id/84/300/200"] },
+        "D-5-1": { name: "الكحل العربي", desc: "مادة تجميلية تقليدية للعيون، تستخدم منذ القدم.", region: "الصحراء الليبية", status: "قيد الدراسة", date: "2026-05-10", source: "تراث شفهي", images: ["https://picsum.photos/id/96/300/200"] },
+        "A-1-2-4": { name: "الأغاني الشعبية والمواويل", desc: "غناء تراثي مصاحب للمناسبات السعيدة والحزينة.", region: "الجبل الأخضر", status: "مسجل", date: "2026-05-10", source: "توثيق ميداني", images: ["https://picsum.photos/id/133/300/200"] },
+        // العنصر الرئيسي: الجواد العربي الليبي
         "B-2-3-1": {
             name: "الجواد العربي الليبي",
             desc: "الخيل العربي في ليبيا هو موروث ثقافي أصيل يمتد لآلاف السنين، جمع بين الأصالة العربية والخصائص المحلية، ويُعتبر رمزاً للفخر والكرم والفروسية.",
@@ -184,11 +188,10 @@
             date: "2026-06-11",
             source: "بطاقة حصر رقم 1/LYSB – الباحثة د. كريمة أحمد محمد عوض، ونوري فريوان",
             images: [
-                "A": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/2.jpg",
-        "B": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/3.jpg",
-        "C": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/1.jpg",
-        "D": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/4.jpg",
-        "H": "https://github.com/tidclibya2026/Intangible-heritage/blob/main/5.jpg"
+                "https://github.com/tidclibya2026/Intangible-heritage/blob/main/1.jpg",
+                "https://github.com/tidclibya2026/Intangible-heritage/blob/main/2.jpg",
+                "https://github.com/tidclibya2026/Intangible-heritage/blob/main/3.jpg",
+                "https://github.com/tidclibya2026/Intangible-heritage/blob/main/4.jpg"
             ],
             otherNames: "الحصان، الفرس، الجواد الكريم، السابق، المضمار، القارح، الكوت النقمال، الجنجان، المكروم.",
             historicalRoots: "تعود تربية الخيول في ليبيا إلى آلاف السنين، وقد أشاد بها المؤرخون اليونانيون والرومان، خاصة خيول قورينا (شحات). ذكر كاليماخوس القوريني اهتمام الملكة برنيكي الثانية بتربية الخيول وإرسالها إلى أوليمبيا. كما أرسل القورينيون للإسكندر الأكبر 300 حصان كهدية. استمر التميز عبر العصور، ووصف سينيسيوس ليبيا بأنها 'مكان الخيول الجميلة'. مع الفتح الإسلامي دخلت الجياد العربية واختلطت السلالات، وما زالت بعض المرابط موجودة حتى اليوم.",
@@ -201,15 +204,17 @@
             currentState: "في حالة تطور ونمو وانتشار، ويُحافظ عليه بشكل جيد، مع جهود كبيرة من الجمعيات والمراكز.",
             safeguardingEfforts: "تأسيس الجمعية الليبية للخيل العربي، المركز الوطني للخيل العربي، الحصول على عضوية منظمة الواهو والايكاهو والافهار، استخراج السجل الليبي للخيل العربي، إنشاء مدارس تدريب على ركوب الخيل، تنظيم المسابقات والمهرجانات، خطط لدورات تدريبية للمدربين والفرسان الناشئين.",
             stakeholders: "الجمعية الليبية للخيل العربي (نوري فريوان)، إدارة سجل الأنساب (أحمد محمد هروس)، المركز الوطني للجواد العربي (د. صلاح الدين المشري، الدكتورة بشرى الطالب)، نادي جالو للفروسية (طارق المجبري).",
-            references: "ابن الإجدابي، 'كفاية المتحفظ في اللغة'؛ عبد الحميد، محمد هـ. هارون (2018)؛ منى اهوين، 'الخيول في قورينائية'؛ محجوب، ع. (1978) فسيفساء فيلا رومانا دي سيلين؛ بالإضافة إلى العشرات من المراجع الأجنبية."
+            references: "ابن الإجدابي، 'كفاية المتحفظ في اللغة'؛ عبد الحميد، محمد هـ. هارون (2018)؛ منى اهوين، 'الخيول في قورينائية'؛ محجوب، ع. (1978) فسيفساء فيلا رومانا دي سيلين؛ بالإضافة إلى العشرات من المراجع الأجنبية المذكورة في بطاقة الحصر."
         }
     };
 
+    // متغيرات الحالة
     let currentDomain = "B";
     let currentView = "categories";
     const domainListEl = document.getElementById("domainList");
     const contentArea = document.getElementById("contentArea");
 
+    // بناء الشريط الجانبي مع معالجة أخطاء الصور
     function buildSidebar() {
         const domains = [
             { code: "A", name: "التقاليد الشفهية (A)", icon: "fas fa-microphone-alt" },
@@ -223,9 +228,8 @@
             const li = document.createElement("li");
             li.className = `domain-item ${currentDomain === d.code ? "active" : ""}`;
             const imgSrc = domainImages[d.code];
-            // محاولة تحميل الصورة، وإذا فشلت نعرض الأيقونة
-            const imgHtml = imgSrc ? `<img src="${imgSrc}" class="domain-img" alt="${d.code}" onerror="this.onerror=null;this.style.display='none';this.nextSibling.style.display='inline-block';">` : ``;
-            const iconHtml = `<i class="${d.icon}" style="${imgSrc ? 'display:none;' : ''}"></i>`;
+            const imgHtml = imgSrc ? `<img src="${imgSrc}" class="domain-img" alt="${d.code}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">` : '';
+            const iconHtml = `<i class="${d.icon}" style="${imgSrc ? 'display:none;' : 'display:inline-flex;'}"></i>`;
             li.innerHTML = `${imgHtml}${iconHtml}<span>${d.name}</span>`;
             li.addEventListener("click", () => {
                 currentDomain = d.code;
@@ -237,6 +241,7 @@
         });
     }
 
+    // بناء شجرة التصنيفات ديناميكياً (مع الصور)
     function buildTreeHTML(node) {
         if (Array.isArray(node)) {
             return node.map(code => {
@@ -260,7 +265,7 @@
                 } else if (typeof value === "object") {
                     const displayName = value.name || key;
                     const imgSrc = categoryImages[key] || "";
-                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="category-img" alt="">` : `<i class="fas fa-folder category-img" style="font-size:1.8rem; color:#f5b041;"></i>`;
+                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="category-img" alt="" onerror="this.style.display='none'">` : `<i class="fas fa-folder category-img" style="font-size:1.8rem; color:#f5b041;"></i>`;
                     const childrenHtml = buildTreeHTML(value.children || value);
                     html += `
                         <div class="category-card">
@@ -309,6 +314,7 @@
         if (code) showDetails(code);
     }
 
+    // عرض التفاصيل مع دعم الأقسام الإضافية للجواد العربي
     function showDetails(code) {
         const data = heritageData[code];
         if (!data) {
@@ -357,6 +363,7 @@
         currentView = "details";
     }
 
+    // البحث في جميع العناصر
     function setupSearch() {
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", (e) => {
@@ -380,6 +387,7 @@
         });
     }
 
+    // بدء التشغيل
     function init() { buildSidebar(); renderCategories("B"); setupSearch(); }
     init();
 </script>
