@@ -1,395 +1,1481 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>السجل الوطني للتراث اللامادي - ليبيا</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', 'Cairo', Tahoma, sans-serif; background: #f4f7fc; color: #1e2a3a; }
-        .header { background: linear-gradient(135deg, #0a1a3a, #1e3a8a); color: white; padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { font-size: 2rem; color: #f5b041; }
-        .title-main h1 { font-size: 1.2rem; }
-        .title-main h2 { font-size: 1.4rem; color: #f5b041; }
-        .libya-flag { background: #f5b041; padding: 6px 15px; border-radius: 40px; color: #0a1a3a; font-weight: bold; display: flex; gap: 10px; }
-        .header-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .search-box { background: rgba(255,255,255,0.15); border-radius: 40px; padding: 6px 16px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(245,176,65,0.3); }
-        .search-box input { background: transparent; border: none; padding: 8px; color: white; outline: none; width: 220px; }
-        .search-box input::placeholder { color: #ddd; }
-        .user-area { display: flex; gap: 18px; align-items: center; }
-        .user-area i { color: #f5b041; }
-        .main-layout { display: flex; min-height: calc(100vh - 150px); }
-        .sidebar { width: 280px; background: white; border-left: 1px solid #e0e7ff; padding: 2rem 1rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
-        .sidebar h3 { color: #1e3a8a; border-right: 4px solid #f5b041; padding-right: 12px; margin-bottom: 1.5rem; }
-        .domain-list { list-style: none; }
-        .domain-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 8px; border-radius: 50px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #1e2a3a; }
-        .domain-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #f5b041; background: #f0f2f5; }
-        .domain-item i { width: 28px; color: #f5b041; }
-        .domain-item.active { background: #1e3a8a; color: white; }
-        .domain-item.active i { color: white; }
-        .domain-item:hover:not(.active) { background: #eef2ff; }
-        .content-area { flex: 1; padding: 2rem; overflow-y: auto; }
-        .category-card { background: white; border-radius: 20px; padding: 0.8rem 1.2rem; margin-bottom: 0.8rem; border: 1px solid #e0e7ff; }
-        .category-header { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .category-img { width: 36px; height: 36px; border-radius: 12px; object-fit: cover; border: 1px solid #f5b041; background: #f0f2f5; }
-        .category-title { flex: 1; font-weight: bold; color: #1e3a8a; }
-        .toggle-icon { color: #f5b041; }
-        .subcategories { padding-right: 3rem; margin-top: 0.5rem; display: none; }
-        .subcategories.show { display: block; }
-        .final-item { background: #eef2ff; padding: 6px 16px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; margin: 5px 5px 0 0; cursor: pointer; transition: 0.1s; color: #1e3a8a; border: 1px solid #d1dbfa; }
-        .final-item:hover { background: #f5b041; color: white; border-color: #f5b041; }
-        .final-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
-        .details-panel { background: white; border-radius: 28px; padding: 1.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border-top: 5px solid #f5b041; }
-        .back-btn { background: #1e3a8a; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; margin-bottom: 1.5rem; }
-        .back-btn:hover { background: #f5b041; color: #0a1a3a; }
-        .heritage-title { font-size: 2rem; font-weight: 800; color: #1e3a8a; }
-        .code-badge { background: #eef2ff; padding: 5px 15px; border-radius: 40px; display: inline-block; margin: 10px 0; color: #1e3a8a; font-weight: bold; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; margin: 1.5rem 0; }
-        .info-item { background: #eef2ff; padding: 0.8rem; border-radius: 16px; }
-        .section-block { margin: 1.5rem 0; }
-        .section-title { font-size: 1.3rem; font-weight: bold; color: #1e3a8a; border-right: 4px solid #f5b041; padding-right: 12px; margin-bottom: 1rem; }
-        .gallery { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
-        .gallery img { width: 200px; height: 150px; object-fit: cover; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #f5b041; cursor: pointer; }
-        .footer { background: #0a1a3a; color: #ccc; text-align: center; padding: 1rem; font-size: 0.8rem; border-top: 2px solid #f5b041; }
-        @media (max-width: 700px) { .main-layout { flex-direction: column; } .sidebar { width: 100%; border-left: none; border-bottom: 1px solid #e0e7ff; } .gallery img { width: 100%; height: auto; } }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة التراث الثقافي غير المادي في ليبيا</title>
+
+  <style>
+    :root {
+      --blue-dark: #0b214f;
+      --blue-main: #102f73;
+      --blue-soft: #1e429f;
+      --gold: #f5b642;
+      --gold-dark: #c99221;
+      --white: #ffffff;
+      --bg: #f5f7fb;
+      --text: #16213e;
+      --muted: #5e6b85;
+      --border: #dce4f2;
+      --shadow: 0 16px 40px rgba(11, 33, 79, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Tahoma", "Arial", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .top-header {
+      background: linear-gradient(120deg, #0a1f4a, #173883);
+      color: var(--white);
+      padding: 20px 0 18px;
+      border-bottom: 1px solid rgba(245, 182, 66, 0.55);
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: right;
+    }
+
+    .brand-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: var(--gold);
+      color: var(--blue-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      flex-shrink: 0;
+    }
+
+    .brand-title small {
+      display: block;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.92);
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+
+    .brand-title h1 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.2vw, 1.95rem);
+      color: var(--gold);
+      line-height: 1.3;
+    }
+
+    .brand-title p {
+      margin: 3px 0 0;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .gov-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: var(--blue-dark);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+    }
+
+    .header-tools {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding-top: 14px;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .nav-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .search-box {
+      position: relative;
+      width: min(360px, 100%);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 42px 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: rgba(255,255,255,0.75);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      opacity: 0.9;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(245,182,66,0.65);
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(245,182,66,0.18);
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       HERO BANNER
+    ========================= */
+
+    .hero-banner {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(10,31,74,0.94) 0%, rgba(16,47,115,0.78) 46%, rgba(16,47,115,0.35) 100%),
+        url("assets/images/heritage-banner.jpg") center/cover no-repeat;
+      border-bottom: 8px solid var(--gold);
+    }
+
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 30%, rgba(245,182,66,0.20), transparent 28%),
+        linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.20));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      padding: 92px 0;
+      width: 100%;
+    }
+
+    .hero-content {
+      max-width: 860px;
+      margin-right: auto;
+      text-align: right;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(245,182,66,0.65);
+      color: #ffe2a2;
+      background: rgba(255,255,255,0.10);
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .hero-content h2 {
+      margin: 0 0 16px;
+      font-size: clamp(2.3rem, 5vw, 5rem);
+      line-height: 1.18;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .hero-slogan {
+      margin: 0 0 18px;
+      color: var(--gold);
+      font-size: clamp(1.15rem, 2.2vw, 1.85rem);
+      font-weight: 900;
+    }
+
+    .hero-text {
+      margin: 0 0 34px;
+      max-width: 820px;
+      color: rgba(255,255,255,0.94);
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+      line-height: 2.05;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-width: 158px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      font-weight: 900;
+      transition: 0.2s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--blue-dark);
+      box-shadow: 0 10px 24px rgba(245,182,66,0.28);
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      border-color: rgba(255,255,255,0.55);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .btn-blue {
+      background: var(--blue-soft);
+      color: #fff;
+      border-color: rgba(255,255,255,0.20);
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats-strip {
+      margin-top: -48px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      color: var(--blue-main);
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    section {
+      scroll-margin-top: 100px;
+    }
+
+    .section {
+      padding: 78px 0;
+    }
+
+    .section.white {
+      background: #fff;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto 38px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold-dark);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .section-header h2 {
+      margin: 0 0 12px;
+      color: var(--blue-main);
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1.35;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 2;
+    }
+
+    .three-grid,
+    .domains-grid,
+    .elements-grid,
+    .promotion-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .three-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .domains-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .elements-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .promotion-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(16,47,115,0.08);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 44px rgba(16,47,115,0.13);
+    }
+
+    .card-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--blue-main);
+      color: #fff;
+      font-size: 1.7rem;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      color: var(--blue-main);
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .domain-card {
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .domain-card .card-icon {
+      margin-inline: auto;
+      width: 54px;
+      height: 54px;
+      font-size: 1.45rem;
+      background: linear-gradient(135deg, var(--blue-main), var(--blue-soft));
+    }
+
+    .domain-card h3 {
+      font-size: 1.02rem;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .domain-card p {
+      font-size: 0.92rem;
+    }
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    .element-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .element-media {
+      height: 190px;
+      background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 3.2rem;
+    }
+
+    .element-body {
+      padding: 24px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #eef3ff;
+      color: var(--blue-main);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .tag.gold {
+      background: rgba(245,182,66,0.18);
+      color: #8c610d;
+    }
+
+    .element-body h3 {
+      margin: 0 0 10px;
+      color: var(--blue-main);
+      font-size: 1.35rem;
+    }
+
+    .element-body p {
+      color: var(--muted);
+      margin: 0 0 16px;
+      line-height: 1.9;
+    }
+
+    .element-meta {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* =========================
+       FEATURE SPLIT
+    ========================= */
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .feature-box {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff;
+      border-radius: 28px;
+      padding: 38px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-box::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(245,182,66,0.18);
+      left: -70px;
+      bottom: -80px;
+    }
+
+    .feature-box h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      color: var(--gold);
+    }
+
+    .feature-box p {
+      position: relative;
+      z-index: 2;
+      color: rgba(255,255,255,0.92);
+      margin: 0;
+      line-height: 2;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 24px rgba(16,47,115,0.06);
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .check-item span {
+      color: var(--gold-dark);
+      font-weight: 900;
+    }
+
+    /* =========================
+       MAP PLACEHOLDER
+    ========================= */
+
+    .map-box {
+      min-height: 360px;
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(rgba(16,47,115,0.92), rgba(16,47,115,0.86)),
+        radial-gradient(circle at center, rgba(245,182,66,0.35), transparent 35%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .map-box h3 {
+      color: var(--gold);
+      font-size: 2rem;
+      margin: 0 0 12px;
+    }
+
+    .map-box p {
+      margin: 0;
+      color: rgba(255,255,255,0.92);
+      max-width: 740px;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 900;
+      color: var(--blue-main);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(245,182,66,0.16);
+    }
+
+    .form-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      background: var(--blue-dark);
+      color: #fff;
+      padding: 42px 0;
+      border-top: 6px solid var(--gold);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .footer h3 {
+      color: var(--gold);
+      margin: 0 0 10px;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .footer-links a {
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      margin-top: 26px;
+      padding-top: 18px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.94rem;
+      text-align: center;
+    }
+
+    /* =========================
+       FLOATING HELP
+    ========================= */
+
+    .help-float {
+      position: fixed;
+      left: 22px;
+      bottom: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gold);
+      color: var(--blue-dark);
+      font-size: 1.4rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      z-index: 20;
+    }
+
+    .toast {
+      position: fixed;
+      left: 90px;
+      bottom: 28px;
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 30;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .domains-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .promotion-grid,
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .elements-grid,
+      .three-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 28px, 1240px);
+      }
+
+      .header-main,
+      .header-tools {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .header-main {
+        text-align: center;
+      }
+
+      .brand {
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .gov-badge {
+        justify-content: center;
+      }
+
+      .nav-area,
+      .user-area {
+        justify-content: center;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .hero-banner {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        padding: 70px 0 96px;
+      }
+
+      .hero-content {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .stats-strip {
+        margin-top: -68px;
+      }
+
+      .stats-grid,
+      .three-grid,
+      .domains-grid,
+      .elements-grid,
+      .promotion-grid,
+      .form-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .form-card {
+        padding: 24px;
+      }
+
+      .help-float {
+        left: 16px;
+        bottom: 16px;
+      }
+
+      .toast {
+        left: 16px;
+        right: 16px;
+        bottom: 84px;
+        max-width: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div>
-    <div class="header">
-        <div class="header-top">
-            <div class="logo-area">
-                <i class="fas fa-landmark logo-icon"></i>
-                <div class="title-main">
-                    <h1>وزارة السياحة والصناعات التقليدية</h1>
-                    <h2>السجل الوطني للتراث اللامادي</h2>
-                    <p>تسجيل وصون التراث الثقافي غير المادي في ليبيا</p>
-                </div>
-            </div>
-            <div class="libya-flag">
-                <i class="fas fa-star-and-crescent"></i> دولة ليبيا
-                <span>حكومة الوحدة الوطنية</span>
-            </div>
+
+  <!-- Header -->
+  <header class="top-header">
+    <div class="container">
+      <div class="header-main">
+        <div class="brand">
+          <div class="brand-icon">🏛️</div>
+          <div class="brand-title">
+            <small>وزارة السياحة والصناعات التقليدية</small>
+            <h1>منصة التراث الثقافي غير المادي في ليبيا</h1>
+            <p>السجل الوطني لصون وتوثيق وترويج الموروث الثقافي الليبي</p>
+          </div>
         </div>
-        <div class="header-bottom">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="بحث في السجل...">
-            </div>
-            <div class="user-area">
-                <i class="fas fa-bell"></i>
-                <i class="fas fa-user-circle"></i>
-                <span>مرحباً، مدير السجل</span>
-            </div>
+
+        <div class="gov-badge">
+          🇱🇾 دولة ليبيا | حكومة الوحدة الوطنية
         </div>
-    </div>
-    <div class="main-layout">
-        <div class="sidebar">
-            <h3><i class="fas fa-stream"></i> المجالات الرئيسية</h3>
-            <ul class="domain-list" id="domainList"></ul>
+      </div>
+
+      <div class="header-tools">
+        <div class="user-area">
+          <span>مرحباً، مدير السجل</span>
+          <span>👤</span>
+          <span>🔔</span>
         </div>
-        <div class="content-area" id="contentArea"></div>
+
+        <div class="nav-area">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input id="searchInput" type="search" placeholder="بحث في السجل..." />
+          </div>
+          <a class="nav-btn" href="#methodology">📋 المنهجية</a>
+          <a class="nav-btn" href="#map">🗺️ الخريطة التفاعلية</a>
+          <a class="nav-btn" href="#stats">📊 المؤشرات</a>
+          <a class="nav-btn" href="#elements">☰ العناصر المسجلة</a>
+        </div>
+      </div>
     </div>
-    <div class="footer">
-        تصميم وتنفيذ مركز المعلومات والتوثيق السياحي &copy; 2026 - السجل الوطني للتراث اللامادي - ليبيا
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-banner" aria-label="منصة التراث الثقافي غير المادي في ليبيا">
+    <div class="hero-inner">
+      <div class="container">
+        <div class="hero-content">
+          <span class="hero-kicker">🏛️ منصة وطنية للتراث الحي</span>
+
+          <h2>منصة التراث الثقافي غير المادي في ليبيا</h2>
+
+          <p class="hero-slogan">
+            السجل الوطني… صون الهوية… وترويج الموروث الثقافي الليبي
+          </p>
+
+          <p class="hero-text">
+            منصة وطنية لتوثيق وصون وإبراز التراث الثقافي غير المادي في ليبيا،
+            تجمع بين السجل الوطني، حماية القيمة التراثية، والترويج للموروث الثقافي
+            كرافد للهوية الوطنية والتنمية السياحية المستدامة.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#elements" class="btn btn-primary">◉ استكشف العناصر</a>
+            <a href="#safeguarding" class="btn btn-outline">🛡️ الصون وحفظ القيمة</a>
+            <a href="#promotion" class="btn btn-outline">📣 الترويج الثقافي</a>
+            <a href="#submit-element" class="btn btn-blue">＋ رشّح عنصراً تراثياً</a>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
 
-<script>
-    // ==========================  إعدادات الصور من مستودع GitHub  ==========================
-    // روابط الصور للمجالات (استخدم الروابط الخام "raw")
-    // تأكد من وجود هذه الصور في المستودع بنفس الأسماء، أو قم بتعديل الروابط
-    const domainImages = {
-        "A": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/2.jpg",
-        "B": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/3.jpg",
-        "C": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/1.jpg",
-        "D": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/4.jpg",
-        "H": "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/main/5.jpg"
-    };
-    // صور التصنيفات الفرعية (اختيارية، يمكن إضافة المزيد)
-    const categoryImages = {
-        "B-2-3": "https://cdn-icons-png.flaticon.com/512/1995/1995573.png"
-    };
-    // صور العناصر النهائية (ستظهر بجانب اسم العنصر)
-    const finalItemImages = {
-        "B-2-3-1": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
-    };
+  <!-- Stats -->
+  <section class="stats-strip" id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number" id="totalElements">0</span>
+          <span class="stat-label">عنصر مسجل</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="totalMunicipalities">0</span>
+          <span class="stat-label">مدينة وبلدية</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="totalDomains">5</span>
+          <span class="stat-label">مجالات تراثية</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="riskElements">0</span>
+          <span class="stat-label">عنصر يحتاج صون</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // ==========================  هيكل التصنيفات (متوافق مع ملف التراث) ==========================
-    const categories = {
-        "A": { name: "التقاليد وأشكال التعبير الشفهي", children: {
-            "A-1": { name: "العادات وأشكال التعبير الشفهي", children: {
-                "A-1-1": { name: "العادات", children: ["A-1-1-1", "A-1-1-2", "A-1-1-3"] },
-                "A-1-2": { name: "الأدب الشعبي", children: ["A-1-2-1", "A-1-2-2", "A-1-2-3", "A-1-2-4", "A-1-2-5"] }
-            } }
-        } },
-        "B": { name: "فنون وتقاليد أداء العروض", children: {
-            "B-1": { name: "الأهازيج الشعبية", children: ["B-1-1"] },
-            "B-2": { name: "الفنون التعبيرية - العروض", children: {
-                "B-2-1": "الرقص الشعبي",
-                "B-2-2": { name: "الألعاب الشعبية", children: ["B-2-2-1"] },
-                "B-2-3": { name: "الخيل العربي", children: ["B-2-3-1"] }
-            } }
-        } },
-        "C": { name: "الممارسات الاجتماعية والطقوس والاحتفالات", children: {
-            "C-1": { name: "العادات والتقاليد الشعبية", children: {
-                "C-1-1": "عادات دورة الحياة",
-                "C-1-2": "الأعياد الدينية",
-                "C-1-3": "الأعياد القومية",
-                "C-1-4": "الأعراف الشعبية",
-                "C-1-5": { name: "الطعام", children: ["C-1-5-1", "C-1-5-2", "C-1-5-3", "C-1-5-4", "C-1-5-5", "C-1-5-6"] },
-                "C-1-6": "الاحتفالات الشعبية"
-            } },
-            "C-2": { name: "المعتقدات الشعبية", children: ["C-2-1", "C-2-2", "C-2-3", "C-2-4"] }
-        } },
-        "D": { name: "المعارف والممارسات المتعلقة بالطبيعة والكون", children: {
-            "D-1": "المعتقدات الشعبية (طبيعة)",
-            "D-2": "الطب الشعبي",
-            "D-3": "المعارف المتعلقة بالطبيعة والكون",
-            "D-4": "اقتفاء الأثر",
-            "D-5": { name: "معارف مرتبطة بالتجميل", children: ["D-5-1", "D-5-2"] },
-            "D-6": "معارف مرتبطة بالطيور والحيوانات"
-        } },
-        "H": { name: "المهارات المرتبطة بالفنون الحرفية التقليدية", children: {
-            "H-1": { name: "المهارات المرتبطة بالصناعات اليدوية", children: {
-                "H-1-1": { name: "صناعة النسيج", children: { "H-1-1-1": { name: "الأزياء الشعبية", children: ["H-1-1-1-1", "H-1-1-1-2", "H-1-1-1-3", "H-1-1-1-4"] } } },
-                "H-1-2": "صناعة السجاد",
-                "H-1-3": "بيوت الشعر",
-                "H-1-4": { name: "صناعة الدمى النسيجية", children: ["H-1-4-1"] }
-            } },
-            "H-2": { name: "الصناعات الحرفية التقليدية", children: {
-                "H-2-1": { name: "صناعة المعادن", children: ["H-2-1-1"] },
-                "H-2-2": "الصناعات الجلدية",
-                "H-2-3": { name: "الصناعات الخشبية", children: ["H-2-3-1"] },
-                "H-2-4": "الفخار"
-            } },
-            "H-3": "الخط العربي"
-        } }
-    };
+  <!-- Platform Pillars -->
+  <section class="section white" id="platform">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">💛 رؤية المنصة</span>
+        <h2>من السجل الوطني إلى صون القيمة وترويج الموروث</h2>
+        <p>
+          تعمل المنصة على تحويل التراث الثقافي غير المادي من مادة موثقة في بطاقات الحصر
+          إلى ذاكرة وطنية حية، وبرامج صون، ومحتوى ثقافي وسياحي قابل للتعريف والترويج.
+        </p>
+      </div>
 
-    // ==========================  بيانات العناصر التراثية (بطاقات معلومات كاملة) ==========================
-    const heritageData = {
-        "C-1-5-1": { name: "الكُسْكُسِي", desc: "طبق تقليدي ليبي يصنع من السميد ويقدم مع الخضار واللحم، يرمز إلى الكرم والمناسبات الاجتماعية.", region: "طرابلس، جبل نفوسة", status: "مسجل", date: "2026-06-01", source: "توثيق ميداني 2024", images: ["https://picsum.photos/id/131/300/200", "https://picsum.photos/id/127/300/200"] },
-        "C-1-5-2": { name: "البازين", desc: "وجبة تقليدية من الدقيق والصلصة (روز)، تعد في المناسبات.", region: "بنغازي، المنطقة الشرقية", status: "مسجل", date: "2026-04-28", source: "تراث شعبي", images: ["https://picsum.photos/id/108/300/200"] },
-        "A-1-1-1": { name: "عادات الزواج الليبية", desc: "طقوس الزواج التقليدية التي تشمل الليلية والزفة والأهازيج.", region: "جميع ليبيا", status: "مسجل", date: "2026-05-28", source: "مركز الدراسات الشعبية", images: ["https://picsum.photos/id/29/300/200"] },
-        "B-2-2-1": { name: "لعبة الخربقة", desc: "لعبة شعبية تعتمد على التوازن والمهارة، تمارس في الأعياد.", region: "بنغازي، البيضاء", status: "مسجل", date: "2026-05-20", source: "توثيق 2023", images: ["https://picsum.photos/id/26/300/200"] },
-        "H-1-1-1-1": { name: "العباءة الرجالية", desc: "عباءة تقليدية مصنوعة من الصوف، تلبس في المناسبات.", region: "المناطق الغربية", status: "مسجل", date: "2026-05-15", source: "حرفيون محليون", images: ["https://picsum.photos/id/84/300/200"] },
-        "D-5-1": { name: "الكحل العربي", desc: "مادة تجميلية تقليدية للعيون، تستخدم منذ القدم.", region: "الصحراء الليبية", status: "قيد الدراسة", date: "2026-05-10", source: "تراث شفهي", images: ["https://picsum.photos/id/96/300/200"] },
-        "A-1-2-4": { name: "الأغاني الشعبية والمواويل", desc: "غناء تراثي مصاحب للمناسبات السعيدة والحزينة.", region: "الجبل الأخضر", status: "مسجل", date: "2026-05-10", source: "توثيق ميداني", images: ["https://picsum.photos/id/133/300/200"] },
-        // العنصر الرئيسي: الجواد العربي الليبي - تم تعديل روابط الصور لتعمل (استخدم صور picsum مؤقتاً بدلاً من روابط GitHub غير المباشرة)
-        "B-2-3-1": {
-            name: "الجواد العربي الليبي",
-            desc: "الخيل العربي في ليبيا هو موروث ثقافي أصيل يمتد لآلاف السنين، جمع بين الأصالة العربية والخصائص المحلية، ويُعتبر رمزاً للفخر والكرم والفروسية.",
-            region: "ينتشر في جميع أنحاء ليبيا، بأهم الاسطبلات والنوادي: اسطبلات أبو بطينة (بنغازي)، اسطبلات الخير، المسومة، أوراس، ذات الرمال، العماد، تيكة، وعائلات العجيلي، فرحات العكاري، البراني، العلوص.",
-            status: "في حالة نمو وتوسع",
-            date: "2026-06-11",
-            source: "بطاقة حصر رقم 1/LYSB – الباحثة د. كريمة أحمد محمد عوض، ونوري فريوان",
-            images: [
-                "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/8ab957538fa550e028c6fb6099c46ac797f3e27e/1.jpg",
-                "https://raw.githubusercontent.com/tidclibya2026/Intangible-heritage/8ab957538fa550e028c6fb6099c46ac797f3e27e/2.jpg",
-                "https://picsum.photos/id/123/300/200",
-                "https://picsum.photos/id/84/300/200"
-            ],
-            otherNames: "الحصان، الفرس، الجواد الكريم، السابق، المضمار، القارح، الكوت النقمال، الجنجان، المكروم.",
-            historicalRoots: "تعود تربية الخيول في ليبيا إلى آلاف السنين، وقد أشاد بها المؤرخون اليونانيون والرومان، خاصة خيول قورينا (شحات). ذكر كاليماخوس القوريني اهتمام الملكة برنيكي الثانية بتربية الخيول وإرسالها إلى أوليمبيا. كما أرسل القورينيون للإسكندر الأكبر 300 حصان كهدية. استمر التميز عبر العصور، ووصف سينيسيوس ليبيا بأنها 'مكان الخيول الجميلة'. مع الفتح الإسلامي دخلت الجياد العربية واختلطت السلالات، وما زالت بعض المرابط موجودة حتى اليوم.",
-            archaeologicalEvidences: "رسوم صخرية في كاف طاهر (1200-2000 ق.م)، فسيفساء الكنيسة الشرقية في قصر ليبيا، نقوش بارزة لفرسان وخيول في قورينا، أمفورات جوائز عليها مشاهد سباق خيول، وقوائم خيول سباق من روما تُظهر أن 28 من أصل 74 حصاناً كانت من برقة.",
-            arabicHeritage: "أفرد العلامة الليبي ابن الإجدابي في كتابه 'كفاية المتحفظ في اللغة' أبواباً كاملة عن الخيل: أسماؤها (الحصان، الجواد، الطرف...)، ألوانها (الكميت، الأدهم، الأحوى...)، جماعاتها (الكتيبة، الرعلة، المقنب...)، ومراتبها في السباق (المجلى، المصلى، المسلى...). كما ذكر صفاتها القياسية (قصير الظهر والمنقار، عريض الصدر والكفل، طويل العنق).",
-            materialElements: "أدوات العدة: المخلاة، الطراحة (الرسوة)، الهجار، العدة (السرج) وتشمل: الكتب، القلادة، الدير، الشمسية، الأجناب (الشواطر)، البدود (خمسة أكسية بألوان مختلفة)، الشريحة، الجلال، اللجام. الأزياء: الكسوة العربية (الزبون/الكاط)، القميص الأبيض، الجرد (الحولي) المعروف بالنقاب، القبعة (طاقية/شنة) – سوداء في الغرب وحمراء في الشرق، وحذاء جلدي أسود.",
-            intangibleElements: "تعابير شفوية: أمثال شعبية مثل 'الجيدة توقي على وجهها من العجاج'، 'العز حصان'، وشعر المهاجاة وترنيمة 'بنات الريح'. المعتقدات: 'براريم الخيل' (دوائر الشعر في جسد الحصان) ولها تفسيرات: بريمة العذار (خلف العذار خير وأمامه شر)، بريمة الشريحة (تستر الفضايح)، بريمة البيوت (عدد الزيجات)، بريمة المصرف (الرزق)، بريمة الركس (كثرة الماشية)، بريمة المزاريق (الموت في المعركة)، بريمة الخزوق (تشاؤم)، بريمة الثمن (غلاء السعر)، بريمة السماميس (السرعة)، براريم القزع (الخير والشر)، بريمة النداديب (مرتبطة بالوفيات)، بريمة القبر (مكروهة)، بريمة المحبة (الألفة). فنون الأداء: ركوب الخيل من اليسار والنزول منها، والعروض الفردية والجماعية (العقد).",
-            contexts: "الميز الشعبي (الملهاد): يصطف الفرسان بخيولهم في ساحة العرض، بانتظار إذن الرئيس الشرفي (الريس أو الدخلاني)، ثم ينشدون القصائد وينطلقون. كما تقام سباقات السرعة وسباقات الجمال والمشاركة في المسابقات المحلية والدولية.",
-            transmission: "تنتقل المعارف والمهارات عن طريق التوارث الأبوي والممارسة العملية في الاسطبلات والنوادي، بالإضافة إلى الدورات التدريبية المنظمة.",
-            currentState: "في حالة تطور ونمو وانتشار، ويُحافظ عليه بشكل جيد، مع جهود كبيرة من الجمعيات والمراكز.",
-            safeguardingEfforts: "تأسيس الجمعية الليبية للخيل العربي، المركز الوطني للخيل العربي، الحصول على عضوية منظمة الواهو والايكاهو والافهار، استخراج السجل الليبي للخيل العربي، إنشاء مدارس تدريب على ركوب الخيل، تنظيم المسابقات والمهرجانات، خطط لدورات تدريبية للمدربين والفرسان الناشئين.",
-            stakeholders: "الجمعية الليبية للخيل العربي (نوري فريوان)، إدارة سجل الأنساب (أحمد محمد هروس)، المركز الوطني للجواد العربي (د. صلاح الدين المشري، الدكتورة بشرى الطالب)، نادي جالو للفروسية (طارق المجبري).",
-            references: "ابن الإجدابي، 'كفاية المتحفظ في اللغة'؛ عبد الحميد، محمد هـ. هارون (2018)؛ منى اهوين، 'الخيول في قورينائية'؛ محجوب، ع. (1978) فسيفساء فيلا رومانا دي سيلين؛ بالإضافة إلى العشرات من المراجع الأجنبية المذكورة في بطاقة الحصر."
-        }
-    };
+      <div class="three-grid">
+        <article class="card">
+          <div class="card-icon">📚</div>
+          <h3>السجل الوطني</h3>
+          <p>
+            توثيق عناصر التراث الثقافي غير المادي وفق مجالاته المعتمدة،
+            وربطها بالمدن والبلديات والحاملين والممارسين والمراجع.
+          </p>
+        </article>
 
-    // متغيرات الحالة
-    let currentDomain = "B";
-    let currentView = "categories";
-    const domainListEl = document.getElementById("domainList");
-    const contentArea = document.getElementById("contentArea");
+        <article class="card">
+          <div class="card-icon">🛡️</div>
+          <h3>الصون وحفظ القيمة</h3>
+          <p>
+            تحديد حالة كل عنصر، رصد المخاطر، دعم نقل المعرفة بين الأجيال،
+            وإبراز دور المجتمعات المحلية في حماية الموروث.
+          </p>
+        </article>
 
-    // بناء الشريط الجانبي مع معالجة أخطاء الصور
-    function buildSidebar() {
-        const domains = [
-            { code: "A", name: "التقاليد الشفهية (A)", icon: "fas fa-microphone-alt" },
-            { code: "B", name: "فنون العروض (B)", icon: "fas fa-music" },
-            { code: "C", name: "الممارسات والطقوس (C)", icon: "fas fa-hands-helping" },
-            { code: "D", name: "المعارف والطبيعة (D)", icon: "fas fa-tree" },
-            { code: "H", name: "الحرف التقليدية (H)", icon: "fas fa-hands" }
-        ];
-        domainListEl.innerHTML = "";
-        domains.forEach(d => {
-            const li = document.createElement("li");
-            li.className = `domain-item ${currentDomain === d.code ? "active" : ""}`;
-            const imgSrc = domainImages[d.code];
-            const imgHtml = imgSrc ? `<img src="${imgSrc}" class="domain-img" alt="${d.code}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">` : '';
-            const iconHtml = `<i class="${d.icon}" style="${imgSrc ? 'display:none;' : 'display:inline-flex;'}"></i>`;
-            li.innerHTML = `${imgHtml}${iconHtml}<span>${d.name}</span>`;
-            li.addEventListener("click", () => {
-                currentDomain = d.code;
-                currentView = "categories";
-                buildSidebar();
-                renderCategories(currentDomain);
-            });
-            domainListEl.appendChild(li);
-        });
-    }
+        <article class="card">
+          <div class="card-icon">📣</div>
+          <h3>الترويج والتسويق الثقافي</h3>
+          <p>
+            تحويل العناصر التراثية إلى قصص رقمية، مسارات سياحية، فعاليات،
+            مهرجانات، محتوى مرئي، وتجارب ثقافية تعزز صورة ليبيا.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    // بناء شجرة التصنيفات ديناميكياً (مع الصور)
-    function buildTreeHTML(node) {
-        if (Array.isArray(node)) {
-            return node.map(code => {
-                const item = heritageData[code];
-                const name = item ? item.name : code;
-                const imgSrc = finalItemImages[code] || "";
-                const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="" onerror="this.style.display='none'">` : `<i class="fas fa-tag"></i>`;
-                return `<div class="final-item" data-code="${code}">${imgHtml} ${name} (${code})</div>`;
-            }).join('');
-        } else if (typeof node === "object" && node !== null) {
-            let html = "";
-            for (let key in node) {
-                const value = node[key];
-                if (typeof value === "string") {
-                    const code = key;
-                    const item = heritageData[code];
-                    const name = item ? item.name : value;
-                    const imgSrc = finalItemImages[code] || "";
-                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="" onerror="this.style.display='none'">` : `<i class="fas fa-tag"></i>`;
-                    html += `<div class="final-item" data-code="${code}">${imgHtml} ${name} (${code})</div>`;
-                } else if (typeof value === "object") {
-                    const displayName = value.name || key;
-                    const imgSrc = categoryImages[key] || "";
-                    const imgHtml = imgSrc ? `<img src="${imgSrc}" class="category-img" alt="" onerror="this.style.display='none'">` : `<i class="fas fa-folder category-img" style="font-size:1.8rem; color:#f5b041;"></i>`;
-                    const childrenHtml = buildTreeHTML(value.children || value);
-                    html += `
-                        <div class="category-card">
-                            <div class="category-header">
-                                ${imgHtml}
-                                <span class="category-title">📁 ${displayName} (${key})</span>
-                                <i class="fas fa-chevron-down toggle-icon"></i>
-                            </div>
-                            <div class="subcategories">${childrenHtml}</div>
-                        </div>
-                    `;
-                }
-            }
-            return html;
-        }
-        return "";
-    }
+  <!-- Living Heritage -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="split">
+        <div class="feature-box">
+          <h2>الموروث الحي… ذاكرة المجتمع الليبي</h2>
+          <p>
+            التراث الثقافي غير المادي هو ما تحمله المجتمعات من عادات وتقاليد وألعاب وفنون
+            وممارسات ومعارف ومهارات تتناقلها الأجيال. لذلك لا تنظر المنصة إلى التراث كأرشيف
+            جامد، بل كقيمة حية مرتبطة بالإنسان والمكان والذاكرة والهوية.
+          </p>
+        </div>
 
-    function renderCategories(domainCode) {
-        const domain = categories[domainCode];
-        if (!domain) { contentArea.innerHTML = `<div class="details-panel">لا توجد بيانات</div>`; return; }
-        const treeHtml = buildTreeHTML(domain.children);
-        contentArea.innerHTML = `<div class="details-panel"><h2><i class="fas fa-folder-open"></i> ${domain.name}</h2><div style="margin-top:20px;">${treeHtml}</div></div>`;
-        attachEvents();
-    }
+        <div class="check-list">
+          <div class="check-item"><span>✓</span> تعريف الجمهور بالموروث الثقافي الليبي بصورة مبسطة وجاذبة.</div>
+          <div class="check-item"><span>✓</span> إبراز الحاملين والممارسين بوصفهم المصدر الأول للمعرفة والتحقق.</div>
+          <div class="check-item"><span>✓</span> دعم الهوية الوطنية والتنوع الثقافي داخل المدن والواحات والقرى الليبية.</div>
+          <div class="check-item"><span>✓</span> تحويل عناصر التراث إلى محتوى رقمي ومسارات وتجارب سياحية.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    function attachEvents() {
-        document.querySelectorAll(".category-card .category-header").forEach(header => {
-            header.removeEventListener("click", toggleHandler);
-            header.addEventListener("click", toggleHandler);
-        });
-        document.querySelectorAll(".final-item").forEach(el => {
-            el.removeEventListener("click", finalHandler);
-            el.addEventListener("click", finalHandler);
-        });
-    }
-    function toggleHandler(e) {
-        e.stopPropagation();
-        const parent = this.closest(".category-card");
-        const sub = parent.querySelector(".subcategories");
-        const icon = this.querySelector(".toggle-icon");
-        if (sub) { sub.classList.toggle("show"); icon.classList.toggle("fa-chevron-up"); }
-    }
-    function finalHandler(e) {
-        const code = this.getAttribute("data-code");
-        if (code) showDetails(code);
-    }
+  <!-- Domains -->
+  <section class="section white" id="methodology">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">📋 منهجية التصنيف</span>
+        <h2>مجالات التراث الثقافي غير المادي</h2>
+        <p>
+          تعتمد المنصة المجالات الخمسة المستخدمة في تصنيف التراث الثقافي غير المادي:
+          التعبير الشفهي، فنون الأداء، الممارسات الاجتماعية، المعارف المرتبطة بالطبيعة،
+          والمهارات الحرفية التقليدية.
+        </p>
+      </div>
 
-    // عرض التفاصيل مع دعم الأقسام الإضافية للجواد العربي
-    function showDetails(code) {
-        const data = heritageData[code];
-        if (!data) {
-            contentArea.innerHTML = `<div class="details-panel"><button class="back-btn" id="backBtn"><i class="fas fa-arrow-right"></i> العودة</button><p>⚠️ لا توجد تفاصيل للرمز ${code}</p></div>`;
-            document.getElementById("backBtn")?.addEventListener("click", () => { currentView = "categories"; renderCategories(currentDomain); });
-            return;
-        }
-        let galleryHtml = "";
-        if (data.images && data.images.length) {
-            data.images.forEach(src => { galleryHtml += `<img src="${src}" alt="${data.name}">`; });
-        } else { galleryHtml = "<p>لا توجد صور</p>"; }
+      <div class="domains-grid">
+        <article class="card domain-card">
+          <div class="card-icon">🗣️</div>
+          <h3>التقاليد وأشكال التعبير الشفهي</h3>
+          <p>الحكايات، الأمثال، الشعر الشعبي، الذاكرة الشفوية، واللغة الحاملة للتراث.</p>
+        </article>
 
-        let extraSections = "";
-        if (code === "B-2-3-1") {
-            extraSections = `
-                <div class="section-block"><div class="section-title"><i class="fas fa-tag"></i> أسماء أخرى</div><p>${data.otherNames}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-history"></i> التأصيل التاريخي والشواهد الأثرية</div><p><strong>التأصيل التاريخي:</strong> ${data.historicalRoots}</p><p><strong>الشواهد الأثرية:</strong> ${data.archaeologicalEvidences}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-feather-alt"></i> التراث العربي (ابن الإجدابي)</div><p>${data.arabicHeritage}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-tools"></i> العناصر المادية (الأدوات والأزياء)</div><p>${data.materialElements}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-magic"></i> العناصر غير المادية (التعابير - المعتقدات - الفنون)</div><p>${data.intangibleElements}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-calendar-alt"></i> السياق (الميز والعروض)</div><p>${data.contexts}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-users"></i> النقل والتوارث</div><p>${data.transmission}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-chart-line"></i> حالة العنصر وجهود الصون</div><p><strong>الحالة الحالية:</strong> ${data.currentState}<br><strong>جهود الصون:</strong> ${data.safeguardingEfforts}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-building"></i> المنظمات والأشخاص المعنيون</div><p>${data.stakeholders}</p></div>
-                <div class="section-block"><div class="section-title"><i class="fas fa-book"></i> المراجع والمصادر</div><p>${data.references}</p></div>
-            `;
-        }
-        const html = `
-            <div class="details-panel">
-                <button class="back-btn" id="backBtn"><i class="fas fa-arrow-right"></i> العودة إلى التصنيفات</button>
-                <div class="heritage-title">${data.name}</div>
-                <div class="code-badge"><i class="fas fa-tag"></i> ${code}</div>
-                <div class="info-grid">
-                    <div class="info-item"><strong>المنطقة/الانتشار</strong><br>${data.region}</div>
-                    <div class="info-item"><strong>الحالة</strong><br><span style="background:#1e3a8a; color:white; padding:2px 12px; border-radius:20px;">${data.status}</span></div>
-                    <div class="info-item"><strong>تاريخ التسجيل</strong><br>${data.date}</div>
-                    <div class="info-item"><strong>المصدر</strong><br>${data.source}</div>
-                </div>
-                <div><strong>الوصف العام:</strong><p>${data.desc}</p></div>
-                ${extraSections}
-                <div style="margin-top:20px;"><strong>معرض الصور التوثيقية</strong><div class="gallery">${galleryHtml}</div></div>
+        <article class="card domain-card">
+          <div class="card-icon">🎭</div>
+          <h3>فنون وتقاليد أداء العروض</h3>
+          <p>الفروسية، الغناء، الرقصات، العروض الشعبية، والميز الشعبي.</p>
+        </article>
+
+        <article class="card domain-card">
+          <div class="card-icon">🎉</div>
+          <h3>الممارسات الاجتماعية والطقوس والاحتفالات</h3>
+          <p>الألعاب الشعبية، الأعراس، المواسم، الطقوس والمناسبات الاجتماعية.</p>
+        </article>
+
+        <article class="card domain-card">
+          <div class="card-icon">🌿</div>
+          <h3>المعارف والممارسات المتعلقة بالطبيعة والكون</h3>
+          <p>المعارف الصحراوية، الزراعة التقليدية، الواحات، النجوم، والطب الشعبي.</p>
+        </article>
+
+        <article class="card domain-card">
+          <div class="card-icon">🧵</div>
+          <h3>المهارات المرتبطة بالفنون الحرفية التقليدية</h3>
+          <p>السعف، الفخار، النسيج، الجلد، الفضة، الخشب، والتطريز التقليدي.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Elements -->
+  <section class="section" id="elements">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">☰ السجل الوطني</span>
+        <h2>عناصر مميزة من التراث الليبي</h2>
+        <p>
+          نماذج أولية لعناصر التراث الثقافي غير المادي، قابلة للتطوير لاحقاً إلى صفحات تفصيلية
+          تشمل الصور، الفيديو، الحاملين، المراجع، حالة الصون، والخريطة.
+        </p>
+      </div>
+
+      <div class="elements-grid" id="elementsGrid"></div>
+    </div>
+  </section>
+
+  <!-- Safeguarding -->
+  <section class="section white" id="safeguarding">
+    <div class="container">
+      <div class="split">
+        <div>
+          <div class="section-header" style="text-align:right;margin:0 0 24px;">
+            <span class="section-kicker">🛡️ الصون وحفظ القيمة</span>
+            <h2>من التوثيق إلى نقل المعرفة بين الأجيال</h2>
+            <p>
+              الصون لا يعني حفظ النصوص فقط، بل حماية الممارسة ذاتها، وتوثيق الحاملين،
+              وتشجيع المجتمع على استمرارها ضمن الحياة اليومية والفعاليات والمناسبات.
+            </p>
+          </div>
+
+          <div class="check-list">
+            <div class="check-item"><span>✓</span> إعداد بطاقات حصر دقيقة لكل عنصر تراثي.</div>
+            <div class="check-item"><span>✓</span> رصد المخاطر: التراجع، ضعف النقل، غياب التوثيق، أو فقدان الممارسين.</div>
+            <div class="check-item"><span>✓</span> تنفيذ ورش للأطفال والشباب بالتعاون مع الحاملين والممارسين.</div>
+            <div class="check-item"><span>✓</span> إنتاج مواد مرئية وصوتية لحفظ الذاكرة وإتاحتها رقمياً.</div>
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <h2>حفظ القيمة قبل العرض</h2>
+          <p>
+            كل عنصر في المنصة يجب أن يمر بثلاث مراحل: التوثيق العلمي، التحقق المجتمعي،
+            ثم الصون والترويج. وبذلك لا تكون المنصة مجرد واجهة إعلامية، بل أداة وطنية لحماية
+            الموروث الثقافي الليبي وتنشيطه.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promotion -->
+  <section class="section" id="promotion">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">📣 الترويج الثقافي والسياحي</span>
+        <h2>من الحصر إلى المنتج السياحي الثقافي</h2>
+        <p>
+          لا يكتمل دور المنصة عند التسجيل، بل يمتد إلى تحويل التراث إلى قصص رقمية،
+          ومسارات سياحية، ومهرجانات، وتجارب ثقافية، ومحتوى ترويجي يعزز صورة ليبيا.
+        </p>
+      </div>
+
+      <div class="promotion-grid">
+        <article class="card">
+          <div class="card-icon">🗺️</div>
+          <h3>مسارات ثقافية</h3>
+          <p>ربط العناصر بالمدن والواحات والمواقع السياحية لتكوين مسارات قابلة للزيارة.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🎥</div>
+          <h3>محتوى رقمي</h3>
+          <p>إنتاج فيديوهات قصيرة، صور، قصص تعريفية، ومنشورات للترويج للموروث.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🏕️</div>
+          <h3>فعاليات ومهرجانات</h3>
+          <p>إدراج العناصر في برامج التنشيط السياحي والاحتفالات والمواسم المحلية.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🧶</div>
+          <h3>منتجات حرفية</h3>
+          <p>ربط التراث اللامادي بالصناعات التقليدية والحرفيين والاقتصاد المحلي.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="section white" id="map">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">🗺️ الخريطة التراثية</span>
+        <h2>الانتشار الجغرافي لعناصر التراث</h2>
+        <p>
+          يتم تطوير الخريطة لاحقاً لعرض العناصر حسب البلديات والمدن، مع الالتزام بخريطة ليبيا
+          الصحيحة جغرافياً وحدودها الرسمية.
+        </p>
+      </div>
+
+      <div class="map-box">
+        <div>
+          <h3>خريطة ليبيا التراثية التفاعلية</h3>
+          <p>
+            سيتم ربط كل عنصر تراثي بمناطق انتشاره، وحامليه، وصوره، وحالة الصون،
+            ومساراته السياحية المقترحة.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Element -->
+  <section class="section" id="submit-element">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-kicker">＋ المشاركة المجتمعية</span>
+        <h2>رشّح عنصراً تراثياً للتوثيق</h2>
+        <p>
+          يمكن للمجتمعات المحلية، الباحثين، الحاملين والممارسين ترشيح عناصر تراثية
+          لإدراجها ضمن السجل بعد المراجعة والتحقق.
+        </p>
+      </div>
+
+      <div class="form-card">
+        <form onsubmit="event.preventDefault(); showToast('تم حفظ الترشيح بشكل تجريبي. يمكن ربط النموذج لاحقاً بقاعدة بيانات أو Google Forms.');">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="elementName">اسم العنصر التراثي</label>
+              <input id="elementName" type="text" placeholder="مثال: لعبة شعبية، فن أداء، عادة اجتماعية" required />
             </div>
-        `;
-        contentArea.innerHTML = html;
-        document.getElementById("backBtn")?.addEventListener("click", () => { currentView = "categories"; renderCategories(currentDomain); });
-        currentView = "details";
+
+            <div class="form-group">
+              <label for="elementDomain">المجال التراثي</label>
+              <select id="elementDomain" required>
+                <option value="">اختر المجال</option>
+                <option>التقاليد وأشكال التعبير الشفهي</option>
+                <option>فنون وتقاليد أداء العروض</option>
+                <option>الممارسات الاجتماعية والطقوس والاحتفالات</option>
+                <option>المعارف والممارسات المتعلقة بالطبيعة والكون</option>
+                <option>المهارات المرتبطة بالفنون الحرفية التقليدية</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="elementLocation">مكان الانتشار</label>
+              <input id="elementLocation" type="text" placeholder="المدينة / البلدية / المنطقة" />
+            </div>
+
+            <div class="form-group">
+              <label for="nominator">اسم مقدم الترشيح</label>
+              <input id="nominator" type="text" placeholder="الاسم أو الجهة" />
+            </div>
+
+            <div class="form-group full">
+              <label for="elementDescription">وصف مختصر للعنصر</label>
+              <textarea id="elementDescription" placeholder="اكتب وصفاً مختصراً لطبيعة العنصر، ممارسيه، وأهميته الثقافية"></textarea>
+            </div>
+          </div>
+
+          <p class="form-note">
+            ملاحظة: هذا نموذج واجهة فقط. يمكن ربطه لاحقاً بقاعدة بيانات، Google Forms، أو لوحة إدارة داخلية.
+          </p>
+
+          <div style="margin-top:18px;">
+            <button class="btn btn-primary" type="submit">إرسال الترشيح</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>منصة التراث الثقافي غير المادي في ليبيا</h3>
+          <p>
+            منصة وطنية لصون وتوثيق وترويج الموروث الثقافي الليبي، ضمن جهود وزارة السياحة
+            والصناعات التقليدية ومركز المعلومات والتوثيق السياحي.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#platform">رؤية المنصة</a>
+          <a href="#methodology">المنهجية</a>
+          <a href="#elements">العناصر</a>
+          <a href="#promotion">الترويج</a>
+          <a href="#map">الخريطة</a>
+        </div>
+      </div>
+
+      <div class="copyright">
+        تصميم وتنفيذ مركز المعلومات والتوثيق السياحي © 2026
+      </div>
+    </div>
+  </footer>
+
+  <button class="help-float" type="button" onclick="showToast('للمساعدة: يمكن استخدام البحث، استكشاف العناصر، أو ترشيح عنصر تراثي للتوثيق.')">؟</button>
+  <div class="toast" id="toastBox"></div>
+
+  <script>
+    const heritageElements = [
+      {
+        id: "ICH-LBY-0001",
+        icon: "🎲",
+        name: "لعبة الخربقة",
+        domain: "الممارسات الاجتماعية والطقوس والاحتفالات",
+        summary: "لعبة شعبية فكرية تعتمد على التخطيط والمناورة والتنافس الشريف، وتمارس في عدد من المدن والقرى الليبية.",
+        locations: ["طرابلس", "أوجلة", "الجفرة", "ترهونة", "سبها", "أجدابيا"],
+        status: "محافظ عليه مع وجود مخاطر تراجع",
+        risk: "متوسط",
+        tourism: "عالٍ"
+      },
+      {
+        id: "ICH-LBY-0002",
+        icon: "🐎",
+        name: "الخيل العربي",
+        domain: "فنون وتقاليد أداء العروض",
+        summary: "عنصر تراثي حي يرتبط بالفروسية، الميز الشعبي، العروض، السباقات، والذاكرة الاجتماعية الليبية.",
+        locations: ["طرابلس", "قصر بن غشير", "بنغازي", "الجبل الأخضر", "جالو"],
+        status: "في حالة تطور وانتشار",
+        risk: "منخفض",
+        tourism: "عالٍ جداً"
+      },
+      {
+        id: "ICH-LBY-0003",
+        icon: "🧵",
+        name: "الصناعات والحرف التقليدية",
+        domain: "المهارات المرتبطة بالفنون الحرفية التقليدية",
+        summary: "مهارات ومعارف متوارثة تشمل النسيج، السعف، الفخار، الجلد، الفضة، والتطريز، وترتبط بالهوية والاقتصاد المحلي.",
+        locations: ["طرابلس", "غدامس", "نالوت", "سبها", "غات", "هون"],
+        status: "بحاجة إلى دعم وترويج",
+        risk: "متوسط",
+        tourism: "عالٍ"
+      }
+    ];
+
+    const elementsGrid = document.getElementById("elementsGrid");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderElements(items) {
+      elementsGrid.textContent = "";
+
+      if (!items.length) {
+        const empty = document.createElement("div");
+        empty.className = "card";
+        empty.style.gridColumn = "1 / -1";
+        empty.textContent = "لا توجد نتائج مطابقة للبحث.";
+        elementsGrid.appendChild(empty);
+        return;
+      }
+
+      items.forEach(item => {
+        const article = document.createElement("article");
+        article.className = "card element-card";
+
+        const media = document.createElement("div");
+        media.className = "element-media";
+        media.textContent = item.icon;
+
+        const body = document.createElement("div");
+        body.className = "element-body";
+
+        const tags = document.createElement("div");
+        tags.className = "tag-row";
+
+        const domainTag = document.createElement("span");
+        domainTag.className = "tag";
+        domainTag.textContent = item.domain;
+
+        const tourismTag = document.createElement("span");
+        tourismTag.className = "tag gold";
+        tourismTag.textContent = "إمكانية سياحية: " + item.tourism;
+
+        tags.appendChild(domainTag);
+        tags.appendChild(tourismTag);
+
+        const title = document.createElement("h3");
+        title.textContent = item.name;
+
+        const summary = document.createElement("p");
+        summary.textContent = item.summary;
+
+        const meta = document.createElement("div");
+        meta.className = "element-meta";
+        meta.textContent = "الانتشار: " + item.locations.join("، ") + " | حالة الصون: " + item.status;
+
+        body.appendChild(tags);
+        body.appendChild(title);
+        body.appendChild(summary);
+        body.appendChild(meta);
+
+        article.appendChild(media);
+        article.appendChild(body);
+
+        elementsGrid.appendChild(article);
+      });
     }
 
-    // البحث في جميع العناصر
-    function setupSearch() {
-        const searchInput = document.getElementById("searchInput");
-        searchInput.addEventListener("input", (e) => {
-            const term = e.target.value.trim().toLowerCase();
-            if (term === "") { if (currentView === "categories") renderCategories(currentDomain); return; }
-            const results = [];
-            for (let [code, data] of Object.entries(heritageData)) {
-                if (data.name.toLowerCase().includes(term) || code.toLowerCase().includes(term)) results.push({ code, name: data.name });
-            }
-            if (results.length === 0) { contentArea.innerHTML = `<div class="details-panel">🔍 لا توجد نتائج</div>`; return; }
-            let resultsHtml = `<div class="details-panel"><h3>نتائج البحث عن: ${term}</h3><div style="display:flex; flex-wrap:wrap; gap:10px;">`;
-            results.forEach(r => {
-                const imgSrc = finalItemImages[r.code] || "";
-                const imgHtml = imgSrc ? `<img src="${imgSrc}" class="final-img" alt="" onerror="this.style.display='none'">` : `<i class="fas fa-tag"></i>`;
-                resultsHtml += `<div class="final-item" data-code="${r.code}">${imgHtml} ${r.name} (${r.code})</div>`;
-            });
-            resultsHtml += `</div><button class="back-btn" id="clearSearch">مسح البحث</button></div>`;
-            contentArea.innerHTML = resultsHtml;
-            document.querySelectorAll(".final-item").forEach(el => { el.addEventListener("click", () => showDetails(el.getAttribute("data-code"))); });
-            document.getElementById("clearSearch")?.addEventListener("click", () => { searchInput.value = ""; renderCategories(currentDomain); currentView = "categories"; });
-        });
+    function updateStats() {
+      const municipalities = new Set();
+      let riskCount = 0;
+
+      heritageElements.forEach(item => {
+        item.locations.forEach(location => municipalities.add(location));
+        if (item.risk !== "منخفض") riskCount++;
+      });
+
+      document.getElementById("totalElements").textContent = heritageElements.length;
+      document.getElementById("totalMunicipalities").textContent = municipalities.size;
+      document.getElementById("riskElements").textContent = riskCount;
     }
 
-    // بدء التشغيل
-    function init() { buildSidebar(); renderCategories("B"); setupSearch(); }
-    init();
-</script>
+    searchInput.addEventListener("input", function () {
+      const query = this.value.trim().toLowerCase();
+
+      const filtered = heritageElements.filter(item => {
+        const haystack = [
+          item.name,
+          item.domain,
+          item.summary,
+          item.status,
+          item.risk,
+          item.tourism,
+          item.locations.join(" ")
+        ].join(" ").toLowerCase();
+
+        return haystack.includes(query);
+      });
+
+      renderElements(filtered);
+    });
+
+    function showToast(message) {
+      const toast = document.getElementById("toastBox");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 4200);
+    }
+
+    renderElements(heritageElements);
+    updateStats();
+  </script>
 </body>
 </html>
